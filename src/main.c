@@ -1,6 +1,6 @@
 #pragma vrinclude std::path::PathBuf as RustPathBuf
 #pragma vrinclude std::io::Result<()> as RustIoResultTup
-// #pragma vrinclude std::io::Result<()>::is_ok as RustIoResultTupIsOk
+#pragma vrinclude std::io::Result<()>::is_ok as RustIoResultTupIsOk
 #pragma vrinclude std::string::String as RustString
 #pragma vrinclude std::string::String::new as RustStringNew
 #pragma vrinclude std::string::String::push as RustStringPush
@@ -19,12 +19,12 @@ int main() {
 
   RustPathBufPushStr(&path_buf, &str);
 
-  RustCreateDir(&path_buf);
-  // if (RustIoResultTupIsOk(&result)) {
+  RustIoResultTup result = RustCreateDir(&path_buf);
+  if (RustIoResultTupIsOk(&result)) {
     printf("Success!\n");
     return 0;
-  // } else {
-  //   printf("Error creating directory!\n");
-  //   return 1;
-  // }
+  } else {
+    printf("Error creating directory!\n");
+    return 1;
+  }
 }

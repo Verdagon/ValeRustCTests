@@ -27,4 +27,4 @@ rust:
 
 .PHONY: clean
 clean:
-	rm -rf *.o *.d *.h rust build
+	rm -rf *.o *.d *.h rust build clibthing
