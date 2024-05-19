@@ -4,7 +4,6 @@
 #pragma vrinclude std::string::String as RustString
 #pragma vrinclude std::string::String::new as RustStringNew
 #pragma vrinclude std::string::String::push as RustStringPush
-#pragma vrinclude std::string::String::From<&str>::from as RustStringFrom
 #pragma vrinclude std::path::PathBuf::new as RustPathBufNew
 #pragma vrinclude std::path::PathBuf::push::<&std::string::String> as RustPathBufPushStr
 #pragma vrinclude std::fs::create_dir<&std::path::PathBuf> as RustCreateDir
