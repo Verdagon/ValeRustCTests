@@ -8,29 +8,25 @@
 #pragma vrinclude std::vec::Vec<&std::ffi::OsString> as VecOsStringRef
 #pragma vrinclude std::vec::Vec<&std::ffi::OsString>::new as VecOsStringRefNew
 #pragma vrinclude std::vec::Vec<&std::ffi::OsString>::push as VecOsStringRefPush
-// #pragma vrinclude subprocess::PopenConfig as RustPopenConfig
-// #pragma vrinclude subprocess::PopenConfig::default as RustPopenConfigDefault
-// #pragma vrinclude subprocess::Popen::create as RustPopenCreate
-// #pragma vrinclude subprocess::Result<Popen> as RustSubprocessPopenResult
-// #pragma vrinclude subprocess::Result<Popen>::is_ok as RustSubprocessPopenResultIsOk
+#pragma vrinclude std::vec::Vec<&std::ffi::OsString>::as_slice as VecOsStringRefAsSlice
+#pragma vrinclude subprocess::PopenConfig as RustPopenConfig
+#pragma vrinclude subprocess::PopenConfig::default as RustPopenConfigDefault
+#pragma vrinclude subprocess::Popen::create::<&std::ffi::OsString> as RustPopenCreate
+#pragma vrinclude subprocess::Result<subprocess::Popen> as RustSubprocessPopenResult
+#pragma vrinclude subprocess::Result<subprocess::Popen>::is_ok as RustSubprocessPopenResultIsOk
+#pragma vrinclude subprocess::Result<subprocess::Popen>::unwrap as RustSubprocessPopenResultUnwrap
+#pragma vrinclude subprocess::Popen as RustSubprocessPopen
+#pragma vrinclude subprocess::Popen::wait as RustSubprocessPopenWait
+#pragma vrinclude subprocess::Result<subprocess::ExitStatus> as RustSubprocessExitStatusResult
+#pragma vrinclude subprocess::Result<subprocess::ExitStatus>::is_ok as RustSubprocessExitStatusResultIsOk
 
 #include <rust_deps/rust_deps.h>
 #include <stdio.h>
 
 int main() {
-  // RustString str = RustStringFromStrRef(constant);
-  // int len = RustStringLen(&str);
-  // printf("Length: %d\n", len);
-  // return 0;
-
-
   RustOsString program_name_osstring = RustOsStringNew();
   RustOsStringPushRefStr(&program_name_osstring, RustStrFromCStr("/bin/cat"));
-  // RustOsString program_name_osstring = RustOsStringFrom(RustStrFromCStr("/bin/cat"));
   
-  // const char* arg1_cstr = ;
-  // OsString_extern arg1_osstring;
-  // OsString_new_extern((const int8_t*)arg1_cstr, strlen(arg1_cstr), &arg1_osstring);
   RustOsString arg1_osstring = RustOsStringNew();
   RustOsStringPushRefStr(&arg1_osstring, RustStrFromCStr("/Users/verdagon/hello.txt"));
   
@@ -38,15 +34,25 @@ int main() {
   VecOsStringRefPush(&argv, &program_name_osstring);
   VecOsStringRefPush(&argv, &arg1_osstring);
 
-  // RustPopenConfig popen_config = RustPopenConfigDefault();
+  RustPopenConfig popen_config = RustPopenConfigDefault();
 
-  // Result_Popen_PopenError_extern result;
-  // Popen_create_extern(&argv, &popen_config, &result);
+  RustSubprocessPopenResult create_result =
+      RustPopenCreate(VecOsStringRefAsSlice(&argv), popen_config);
 
-  // bool is_ok = Result_Popen_PopenError_is_ok_extern(&result);
+  if (!RustSubprocessPopenResultIsOk(&create_result)) {
+    printf("Failed to open subprocess!\n");
+    return 1;
+  }
+  RustSubprocessPopen process = RustSubprocessPopenResultUnwrap(create_result);
 
-  // if (!is_ok) {
-  //   return 1;
-  // }
+  RustSubprocessExitStatusResult wait_result =
+      RustSubprocessPopenWait(&process);
+
+  if (!RustSubprocessExitStatusResultIsOk(&wait_result)) {
+    printf("Failed to wait on subprocess!\n");
+    return 1;
+  }
+
+  printf("Success!\n");
   return 0;
 }

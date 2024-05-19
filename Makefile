@@ -17,7 +17,7 @@ ccatter: build/main.o
 
 build/main.o:	src/main.c rust
 	@echo "Invoking ValeRuster"
-	@grep '^#pragma vrinclude' src/main.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml instantiate --output_dir rust
+	@grep '^#pragma vrinclude' src/main.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
 	@echo "Compiling the C file..."
 	echo $(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 	$(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
