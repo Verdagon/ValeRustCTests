@@ -1,53 +1,48 @@
-// #pragma vrinclude std::string::String::From<&str>::from as RustStringFromStrRef
-// #pragma vrinclude std::string::String::len as RustStringLen
-// #pragma vrinclude std::string::String as RustString
-#pragma vrinclude std::ffi::OsString as RustOsString
-// #pragma vrinclude std::ffi::OsString::From<&str>::from as RustOsStringFrom
-#pragma vrinclude std::ffi::OsString::new as RustOsStringNew
-#pragma vrinclude std::ffi::OsString::push::<&str> as RustOsStringPushRefStr
-#pragma vrinclude std::vec::Vec<&std::ffi::OsString> as VecOsStringRef
-#pragma vrinclude std::vec::Vec<&std::ffi::OsString>::new as VecOsStringRefNew
-#pragma vrinclude std::vec::Vec<&std::ffi::OsString>::push as VecOsStringRefPush
-#pragma vrinclude std::vec::Vec<&std::ffi::OsString>::as_slice as VecOsStringRefAsSlice
-#pragma vrinclude subprocess::PopenConfig as RustPopenConfig
-#pragma vrinclude subprocess::PopenConfig::default as RustPopenConfigDefault
-#pragma vrinclude subprocess::Popen::create::<&std::ffi::OsString> as RustPopenCreate
-#pragma vrinclude subprocess::Result<subprocess::Popen> as RustSubprocessPopenResult
-#pragma vrinclude subprocess::Result<subprocess::Popen>::is_ok as RustSubprocessPopenResultIsOk
-#pragma vrinclude subprocess::Result<subprocess::Popen>::unwrap as RustSubprocessPopenResultUnwrap
-#pragma vrinclude subprocess::Popen as RustSubprocessPopen
-#pragma vrinclude subprocess::Popen::wait as RustSubprocessPopenWait
-#pragma vrinclude subprocess::Result<subprocess::ExitStatus> as RustSubprocessExitStatusResult
-#pragma vrinclude subprocess::Result<subprocess::ExitStatus>::is_ok as RustSubprocessExitStatusResultIsOk
+#pragma rsuse OsString = std::ffi::OsString
+#pragma rsuse OsStringNew = OsString::new
+#pragma rsuse OsStringPushRefStr = OsString::push::<&str>
+#pragma rsuse VecOsStringRef = std::vec::Vec<&OsString>
+#pragma rsuse VecOsStringRefNew = VecOsStringRef::new
+#pragma rsuse VecOsStringRefPush = VecOsStringRef::push
+#pragma rsuse VecOsStringRefAsSlice = VecOsStringRef::as_slice
+#pragma rsuse PopenConfig = subprocess::PopenConfig
+#pragma rsuse PopenConfigDefault = PopenConfig::default
+#pragma rsuse Popen = subprocess::Popen
+#pragma rsuse PopenCreate = Popen::create::<&OsString>
+#pragma rsuse PopenResult = subprocess::Result<Popen>
+#pragma rsuse PopenResultIsOk = PopenResult::is_ok
+#pragma rsuse PopenResultUnwrap = PopenResult::unwrap
+#pragma rsuse PopenWait = Popen::wait
+#pragma rsuse ExitStatusResult = subprocess::Result<subprocess::ExitStatus>
+#pragma rsuse ExitStatusResultIsOk = ExitStatusResult::is_ok
 
 #include <rust_deps/rust_deps.h>
 #include <stdio.h>
 
 int main() {
-  RustOsString program_name_osstring = RustOsStringNew();
-  RustOsStringPushRefStr(&program_name_osstring, RustStrFromCStr("/bin/cat"));
+  OsString program_name_osstring = OsStringNew();
+  OsStringPushRefStr(&program_name_osstring, VR_StrFromCStr("/bin/cat"));
   
-  RustOsString arg1_osstring = RustOsStringNew();
-  RustOsStringPushRefStr(&arg1_osstring, RustStrFromCStr("/Users/verdagon/hello.txt"));
+  OsString arg1_osstring = OsStringNew();
+  OsStringPushRefStr(&arg1_osstring, VR_StrFromCStr("/Users/verdagon/hello.txt"));
   
   VecOsStringRef argv = VecOsStringRefNew();
   VecOsStringRefPush(&argv, &program_name_osstring);
   VecOsStringRefPush(&argv, &arg1_osstring);
 
-  RustSubprocessPopenResult create_result =
-      RustPopenCreate(
-          VecOsStringRefAsSlice(&argv), RustPopenConfigDefault());
+  PopenResult create_result =
+      PopenCreate(
+          VecOsStringRefAsSlice(&argv), PopenConfigDefault());
 
-  if (!RustSubprocessPopenResultIsOk(&create_result)) {
+  if (!PopenResultIsOk(&create_result)) {
     printf("Failed to open subprocess!\n");
     return 1;
   }
-  RustSubprocessPopen process = RustSubprocessPopenResultUnwrap(create_result);
+  Popen process = PopenResultUnwrap(create_result);
 
-  RustSubprocessExitStatusResult wait_result =
-      RustSubprocessPopenWait(&process);
+  ExitStatusResult wait_result = PopenWait(&process);
 
-  if (!RustSubprocessExitStatusResultIsOk(&wait_result)) {
+  if (!ExitStatusResultIsOk(&wait_result)) {
     printf("Failed to wait on subprocess!\n");
     return 1;
   }

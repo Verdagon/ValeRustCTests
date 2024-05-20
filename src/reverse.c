@@ -1,23 +1,24 @@
-#pragma vrinclude std::string::String as RustString
-#pragma vrinclude str::chars as RustStr_chars
-#pragma vrinclude core::str::Chars<'static> as RustChars
-#pragma vrinclude core::str::Chars<'static>::rev as RustChars_rev
-#pragma vrinclude core::iter::Rev<core::str::Chars<'static>> as RustRevChars
-#pragma vrinclude core::iter::Rev<core::str::Chars<'static>>::collect::<std::string::String> as RustRevChars_collectString
-#pragma vrinclude std::string::String::as_str as RustString_as_str
+#pragma rsuse Str = &str
+#pragma rsuse Str_chars = str::chars
+#pragma rsuse String = std::string::String
+#pragma rsuse String_as_str = String::as_str
+#pragma rsuse Chars = core::str::Chars<'static>
+#pragma rsuse Chars_rev = Chars::rev
+#pragma rsuse RevChars = core::iter::Rev<Chars>
+#pragma rsuse RevChars_collectString = RevChars::collect::<String>
 
 #include <rust_deps/rust_deps.h>
 #include <stdio.h>
 #include <unistd.h>
 
 int main() {
-  VR_str_ref constant = RustStrFromCStr("bork");
-  RustChars x = RustStr_chars(constant);
-  RustRevChars reversed = RustChars_rev(x);
-  RustString bork = RustRevChars_collectString(reversed);
-  VR_str_ref bork_as_str = RustString_as_str(&bork);
+  Str constant = VR_StrFromCStr("bork");
+  Chars x = Str_chars(constant);
+  RevChars reversed = Chars_rev(x);
+  String bork = RevChars_collectString(reversed);
+  Str bork_as_str = String_as_str(&bork);
 
-  write(STDOUT_FILENO, RustStrToCStr(bork_as_str), RustStrLen(bork_as_str));
+  write(STDOUT_FILENO, VR_StrToCStr(bork_as_str), VR_StrLen(bork_as_str));
 
   printf("Success!\n");
   return 0;

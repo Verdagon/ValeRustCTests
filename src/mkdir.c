@@ -1,26 +1,26 @@
-#pragma vrinclude std::path::PathBuf as RustPathBuf
-#pragma vrinclude std::io::Result<()> as RustIoResultTup
-#pragma vrinclude std::io::Result<()>::is_ok as RustIoResultTupIsOk
-#pragma vrinclude std::string::String as RustString
-#pragma vrinclude std::string::String::new as RustStringNew
-#pragma vrinclude std::string::String::push as RustStringPush
-#pragma vrinclude std::path::PathBuf::new as RustPathBufNew
-#pragma vrinclude std::path::PathBuf::push::<&std::string::String> as RustPathBufPushStr
-#pragma vrinclude std::fs::create_dir<&std::path::PathBuf> as RustCreateDir
+#pragma rsuse PathBuf = std::path::PathBuf
+#pragma rsuse IoResultTup = std::io::Result<()>
+#pragma rsuse IoResultTupIsOk = IoResultTup::is_ok
+#pragma rsuse String = std::string::String
+#pragma rsuse StringNew = String::new
+#pragma rsuse StringPush = String::push
+#pragma rsuse PathBufNew = PathBuf::new
+#pragma rsuse PathBufPushStr = PathBuf::push::<&String>
+#pragma rsuse CreateDir = std::fs::create_dir<&PathBuf>
 
 #include <rust_deps/rust_deps.h>
 #include <stdio.h>
 
 int main() {
-  RustPathBuf path_buf = RustPathBufNew();
+  PathBuf path_buf = PathBufNew();
 
-  RustString str = RustStringNew();
-  RustStringPush(&str, 'x');
+  String str = StringNew();
+  StringPush(&str, 'x');
 
-  RustPathBufPushStr(&path_buf, &str);
+  PathBufPushStr(&path_buf, &str);
 
-  RustIoResultTup result = RustCreateDir(&path_buf);
-  if (RustIoResultTupIsOk(&result)) {
+  IoResultTup result = CreateDir(&path_buf);
+  if (IoResultTupIsOk(&result)) {
     printf("Success!\n");
     return 0;
   } else {
