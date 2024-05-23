@@ -11,7 +11,7 @@ capi = ["libc"]
 libc = { version = "0.2", optional = true }
 static_assertions = "1.1.0"
 subprocess = "0.2.9"
-unicode-segmentation = "1.11.0"
+regex = "1.10.4"
 
 [dev-dependencies]
 inline-c = "0.1"

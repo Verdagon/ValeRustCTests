@@ -73,7 +73,19 @@ build/catter.o:	src/catter.c build	rust
 	echo $(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 	$(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 
-# tests:	catter reverse mkdir strlen
+regex: build/regex.o
+	echo $(CC) $(CFLAGS) $(INCLUDES) $^ -o $@ $(LIBS)
+	$(CC) $(CFLAGS) $(INCLUDES) $^ -o build/regex $(LIBS)
+	build/regex || (echo "regex test failed!"; exit 1)
+	@echo regex test succeeded!
+
+build/regex.o:	src/regex.c build	rust
+	@echo "Doing regex test..."
+	@grep '^#pragma rsuse' src/regex.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
+	echo $(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
+
+# tests:	catter reverse mkdir strlen regex
 # 	@echo "All tests succeeded!"
 
 rust:
