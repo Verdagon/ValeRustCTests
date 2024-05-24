@@ -1,4 +1,4 @@
-// Seamless C->Rust example: reversing a string
+// Seamless C->Rust example: using regex
 
 // Import types. More advanced compilers with generics wouldn't need
 // to specify these generic args in theory, it would basically be a
