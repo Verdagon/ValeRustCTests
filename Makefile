@@ -1,8 +1,8 @@
 CC = clang++
-EXAMPLE_PROJECT_DIR := /Volumes/V/CCatter/rust/target/aarch64-apple-darwin/debug
+EXAMPLE_PROJECT_DIR := /Volumes/V/CCatter/rust/target/aarch64-apple-darwin/release
 export PKG_CONFIG_PATH := $(EXAMPLE_PROJECT_DIR):$(PKG_CONFIG_PATH)
 
-CFLAGS = -Wall -Wextra -g -fsanitize=address,undefined
+CFLAGS = -Wall -Wextra -Wl,-dead_strip -ffunction-sections -fdata-sections
 INCLUDES = `pkg-config --cflags --static rust_deps`
 LIBS = `pkg-config --libs --static rust_deps`
 

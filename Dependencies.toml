@@ -3,6 +3,13 @@ name = "rust_deps"
 version = "0.1.0"
 edition = "2021"
 
+[profile.release]
+strip = true  # Automatically strip symbols from the binary.
+lto = true
+codegen-units = 1
+panic = "abort"
+opt-level = "z"  # Optimize for size.
+
 [features]
 default = []
 capi = ["libc"]
