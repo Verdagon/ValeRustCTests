@@ -22,18 +22,18 @@ int main() {
 
   PathBuf_pushStr(&path_buf, &str);
 
-  String_drop(&str);
+  String_drop(str);
 
   IoResultTup result = create_dir(&path_buf);
-  PathBuf_drop(&path_buf);
+  PathBuf_drop(path_buf);
 
   if (IoResultTup_is_ok(&result)) {
     printf("Success!\n");
-    IoResultTup_drop(&result);
+    IoResultTup_drop(result);
     return 0;
   } else {
     printf("Error creating directory!\n");
-    IoResultTup_drop(&result);
+    IoResultTup_drop(result);
     return 1;
   }
 }

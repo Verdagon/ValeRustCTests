@@ -37,7 +37,7 @@ int main() {
   write(STDOUT_FILENO, VR_StrToCStr(revStr), VR_StrLen(revStr));
   printf("\nSuccess!\n");
 
-  String_drop(&revString);
+  String_drop(revString);
   return 0;
 }
 

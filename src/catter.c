@@ -48,8 +48,8 @@ int main() {
   if (!PopenResult_is_ok(&create_result)) {
     printf("Failed to open subprocess!\n");
     // Drops implicit in Rust
-    PopenResult_drop(&create_result);
-    VecOsString_drop(&argv);
+    PopenResult_drop(create_result);
+    VecOsString_drop(argv);
     return 1;
   }
   Popen process = PopenResult_unwrap(create_result);
@@ -62,10 +62,10 @@ int main() {
   if (!ExitStatusResult_is_ok(&wait_result)) {
     printf("Failed to wait on subprocess!\n");
     // Drops implicit in Rust
-    ExitStatusResult_drop(&wait_result);
-    Popen_drop(&process);
-    PopenResult_drop(&create_result);
-    VecOsString_drop(&argv);
+    ExitStatusResult_drop(wait_result);
+    Popen_drop(process);
+    PopenResult_drop(create_result);
+    VecOsString_drop(argv);
     return 1;
   }
 
@@ -73,9 +73,9 @@ int main() {
   printf("Success!\n");
 
   // Drops implicit in Rust
-  ExitStatusResult_drop(&wait_result);
-  Popen_drop(&process);
-  PopenResult_drop(&create_result);
-  VecOsString_drop(&argv);
+  ExitStatusResult_drop(wait_result);
+  Popen_drop(process);
+  PopenResult_drop(create_result);
+  VecOsString_drop(argv);
   return 0;
 }

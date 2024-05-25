@@ -11,6 +11,6 @@ int main() {
   String s = String_fromStr(b);
   int len = String_len(&s);
   printf("Length: %d\n", len);
-  String_drop(&s);
+  String_drop(s);
   return 0;
 }

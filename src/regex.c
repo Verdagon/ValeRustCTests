@@ -41,7 +41,7 @@ int main() {
   RegexResult regex_result = Regex_new(str);
   if (!RegexResult_is_ok(&regex_result)) {
     printf("Error making regex!\n");
-    RegexResult_drop(&regex_result);
+    RegexResult_drop(regex_result);
     return 1;
   }
   Regex regex = RegexResult_unwrap(regex_result);
@@ -50,8 +50,8 @@ int main() {
       Regex_captures(&regex, VR_StrFromCStr("hello my name is Valerian Vast how are you"));
   if (OptionRegexCaptures_is_none(&maybe_captures)) {
     printf("Not a match!\n");
-    OptionRegexCaptures_drop(&maybe_captures);
-    Regex_drop(&regex);
+    OptionRegexCaptures_drop(maybe_captures);
+    Regex_drop(regex);
     return 1;
   }
   RegexCaptures captures = OptionRegexCaptures_unwrap(maybe_captures);
@@ -59,9 +59,9 @@ int main() {
   OptionRegexMatch maybe_match = RegexCaptures_get(&captures, 1);
   if (OptionRegexMatch_is_none(&maybe_match)) {
     printf("No capture group!\n");
-    OptionRegexMatch_drop(&maybe_match);
-    RegexCaptures_drop(&captures);
-    Regex_drop(&regex);
+    OptionRegexMatch_drop(maybe_match);
+    RegexCaptures_drop(captures);
+    Regex_drop(regex);
     return 1;
   }
   RegexMatch match = OptionRegexMatch_unwrap(maybe_match);
@@ -70,9 +70,9 @@ int main() {
   write(STDOUT_FILENO, VR_StrToCStr(match_as_str), VR_StrLen(match_as_str));
   printf("\nSuccess!\n");
 
-  RegexMatch_drop(&match);
-  RegexCaptures_drop(&captures);
-  Regex_drop(&regex);
+  RegexMatch_drop(match);
+  RegexCaptures_drop(captures);
+  Regex_drop(regex);
 
   return 0;
 }
