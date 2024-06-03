@@ -18,7 +18,7 @@ main: build/main.o
 
 build/main.o:	src/main.c build	rust
 	@echo "Doing main..."
-	grep '^#pragma rsuse' src/main.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
+	grep '^#pragma rs' src/main.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
 	echo $(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 	$(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 
@@ -32,7 +32,7 @@ strlen: build/strlen.o
 
 build/strlen.o:	src/strlen.c build	rust
 	@echo "Doing strlen test..."
-	@grep '^#pragma rsuse' src/strlen.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
+	@grep '^#pragma rs' src/strlen.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
 	echo $(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 	$(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 
@@ -45,7 +45,7 @@ mkdir: build/mkdir.o
 
 build/mkdir.o:	src/mkdir.c build	rust
 	@echo "Doing mkdir test..."
-	@grep '^#pragma rsuse' src/mkdir.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
+	@grep '^#pragma rs' src/mkdir.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
 	echo $(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 	$(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 
@@ -57,7 +57,7 @@ reverse: build/reverse.o
 
 build/reverse.o:	src/reverse.c build	rust
 	@echo "Doing reverse test..."
-	@grep '^#pragma rsuse' src/reverse.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
+	@grep '^#pragma rs' src/reverse.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
 	echo $(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 	$(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 
@@ -69,7 +69,7 @@ catter: build/catter.o
 
 build/catter.o:	src/catter.c build	rust
 	@echo "Doing catter test..."
-	@grep '^#pragma rsuse' src/catter.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
+	@grep '^#pragma rs' src/catter.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
 	echo $(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 	$(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 
@@ -81,7 +81,7 @@ regex: build/regex.o
 
 build/regex.o:	src/regex.c build	rust
 	@echo "Doing regex test..."
-	@grep '^#pragma rsuse' src/regex.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
+	@grep '^#pragma rs' src/regex.c | /Volumes/V/Vale/ValeRuster/target/debug/ValeRuster --crate std --cargo_toml Dependencies.toml --output_dir rust instantiate
 	echo $(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 	$(CC) $(CFLAGS) $(INCLUDES) -I . -c $< -o $@
 
